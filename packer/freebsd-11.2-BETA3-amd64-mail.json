@@ -129,7 +129,7 @@
   "post-processors": [{
     "type": "vagrant",
     "compression_level": "{{user `compression_level`}}",
-    "output": "freebsd-11.2-BETA3-amd64-{{.Provider}}.box",
+    "output": "freebsd-11.2-BETA3-amd64-mail-{{.Provider}}.box",
     "vagrantfile_template": "vagrantfile_templates/freebsd.rb"
   }],
   "variables": {
