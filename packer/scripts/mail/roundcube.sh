@@ -16,3 +16,4 @@ sudo cp /tmp/files/roundcube/config.inc.php /usr/local/www/roundcube/config
 sudo cp /tmp/files/roundcube/password_config.inc.php /usr/local/www/roundcube/plugins/password/config.inc.php
 
 sudo chown -R root:wheel /usr/local/www/roundcube/
+rm -f roundcubemail-${roundcube_version}-complete.tar.gz
