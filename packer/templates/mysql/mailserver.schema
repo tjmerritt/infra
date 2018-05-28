@@ -1,0 +1,492 @@
+-- MySQL dump 10.13  Distrib 5.6.35, for FreeBSD11.0 (amd64)
+--
+-- Host: localhost    Database: mailserver
+-- ------------------------------------------------------
+-- Server version 5.6.35
+ 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+ 
+--
+-- Current Database: `mailserver`
+--
+ 
+/*!40000 DROP DATABASE IF EXISTS `mailserver`*/;
+ 
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mailserver` /*!40100 DEFAULT CHARACTER SET latin1 */;
+ 
+USE `mailserver`;
+ 
+--
+-- Table structure for table `admin`
+--
+ 
+DROP TABLE IF EXISTS `admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `admin` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `superadmin` tinyint(1) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Virtual Admins';
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `alias`
+--
+ 
+DROP TABLE IF EXISTS `alias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alias` (
+  `address` varchar(255) NOT NULL,
+  `goto` text NOT NULL,
+  `domain` varchar(255) NOT NULL,
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`address`),
+  KEY `domain` (`domain`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Virtual Aliases';
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `alias_domain`
+--
+ 
+DROP TABLE IF EXISTS `alias_domain`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alias_domain` (
+  `alias_domain` varchar(255) NOT NULL,
+  `target_domain` varchar(255) NOT NULL,
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`alias_domain`),
+  KEY `active` (`active`),
+  KEY `target_domain` (`target_domain`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Domain Aliases';
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `anyone_shares`
+--
+ 
+DROP TABLE IF EXISTS `anyone_shares`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `anyone_shares` (
+  `from_user` varchar(100) NOT NULL,
+  `dummy` char(1) DEFAULT '1',
+  PRIMARY KEY (`from_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `cake_d_c_users_phinxlog`
+--
+ 
+DROP TABLE IF EXISTS `cake_d_c_users_phinxlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cake_d_c_users_phinxlog` (
+  `version` bigint(20) NOT NULL,
+  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `end_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `config`
+--
+ 
+DROP TABLE IF EXISTS `config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL DEFAULT '',
+  `value` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='PostfixAdmin settings';
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `domain`
+--
+ 
+DROP TABLE IF EXISTS `domain`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `domain` (
+  `domain` varchar(255) NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `aliases` int(10) NOT NULL DEFAULT '0',
+  `mailboxes` int(10) NOT NULL DEFAULT '0',
+  `maxquota` bigint(20) NOT NULL DEFAULT '0',
+  `quota` bigint(20) NOT NULL DEFAULT '0',
+  `transport` varchar(255) NOT NULL,
+  `backupmx` tinyint(1) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`domain`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Virtual Domains';
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `domain_admins`
+--
+ 
+DROP TABLE IF EXISTS `domain_admins`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `domain_admins` (
+  `username` varchar(255) NOT NULL,
+  `domain` varchar(255) NOT NULL,
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Domain Admins';
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `fetchmail`
+--
+ 
+DROP TABLE IF EXISTS `fetchmail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fetchmail` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `mailbox` varchar(255) NOT NULL,
+  `src_server` varchar(255) NOT NULL,
+  `src_auth` enum('password','kerberos_v5','kerberos','kerberos_v4','gssapi','cram-md5','otp','ntlm','msn','ssh','any') DEFAULT NULL,
+  `src_user` varchar(255) NOT NULL,
+  `src_password` varchar(255) NOT NULL,
+  `src_folder` varchar(255) NOT NULL,
+  `poll_time` int(11) unsigned NOT NULL DEFAULT '10',
+  `fetchall` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `keep` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `protocol` enum('POP3','IMAP','POP2','ETRN','AUTO') DEFAULT NULL,
+  `usessl` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `sslcertck` tinyint(1) NOT NULL DEFAULT '0',
+  `sslcertpath` varchar(255) CHARACTER SET utf8 DEFAULT '',
+  `sslfingerprint` varchar(255) DEFAULT '',
+  `extra_options` text,
+  `returned_text` text,
+  `mda` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `log`
+--
+ 
+DROP TABLE IF EXISTS `log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `log` (
+  `timestamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `username` varchar(255) NOT NULL,
+  `domain` varchar(255) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `data` text NOT NULL,
+  KEY `timestamp` (`timestamp`),
+  KEY `domain_timestamp` (`domain`,`timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Log';
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `mailbox`
+--
+ 
+DROP TABLE IF EXISTS `mailbox`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mailbox` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `maildir` varchar(255) NOT NULL,
+  `quota` bigint(20) NOT NULL DEFAULT '0',
+  `local_part` varchar(255) NOT NULL,
+  `domain` varchar(255) NOT NULL,
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`username`),
+  KEY `domain` (`domain`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Virtual Mailboxes';
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `quota`
+--
+ 
+DROP TABLE IF EXISTS `quota`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `quota` (
+  `username` varchar(255) NOT NULL,
+  `path` varchar(100) NOT NULL,
+  `current` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`username`,`path`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `quota2`
+--
+ 
+DROP TABLE IF EXISTS `quota2`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `quota2` (
+  `username` varchar(100) NOT NULL,
+  `bytes` bigint(20) NOT NULL DEFAULT '0',
+  `messages` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `recipient_bcc_domain`
+--
+ 
+DROP TABLE IF EXISTS `recipient_bcc_domain`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recipient_bcc_domain` (
+  `domain` varchar(255) NOT NULL DEFAULT '',
+  `bcc_address` varchar(255) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `expired` datetime NOT NULL DEFAULT '9999-12-31 00:00:00',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`domain`),
+  KEY `bcc_address` (`bcc_address`),
+  KEY `expired` (`expired`),
+  KEY `active` (`active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `recipient_bcc_user`
+--
+ 
+DROP TABLE IF EXISTS `recipient_bcc_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recipient_bcc_user` (
+  `username` varchar(255) NOT NULL DEFAULT '',
+  `bcc_address` varchar(255) NOT NULL DEFAULT '',
+  `domain` varchar(255) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `expired` datetime NOT NULL DEFAULT '9999-12-31 00:00:00',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`username`),
+  KEY `bcc_address` (`bcc_address`),
+  KEY `expired` (`expired`),
+  KEY `active` (`active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `sender_bcc_domain`
+--
+ 
+DROP TABLE IF EXISTS `sender_bcc_domain`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sender_bcc_domain` (
+  `domain` varchar(255) NOT NULL DEFAULT '',
+  `bcc_address` varchar(255) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `expired` datetime NOT NULL DEFAULT '9999-12-31 00:00:00',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`domain`),
+  KEY `bcc_address` (`bcc_address`),
+  KEY `expired` (`expired`),
+  KEY `active` (`active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `sender_bcc_user`
+--
+ 
+DROP TABLE IF EXISTS `sender_bcc_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sender_bcc_user` (
+  `username` varchar(255) NOT NULL DEFAULT '',
+  `bcc_address` varchar(255) NOT NULL DEFAULT '',
+  `domain` varchar(255) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `expired` datetime NOT NULL DEFAULT '9999-12-31 00:00:00',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`username`),
+  KEY `bcc_address` (`bcc_address`),
+  KEY `domain` (`domain`),
+  KEY `expired` (`expired`),
+  KEY `active` (`active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `share_folder`
+--
+ 
+DROP TABLE IF EXISTS `share_folder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `share_folder` (
+  `from_user` varchar(255) CHARACTER SET ascii NOT NULL,
+  `to_user` varchar(255) CHARACTER SET ascii NOT NULL,
+  `dummy` char(1) DEFAULT NULL,
+  PRIMARY KEY (`from_user`,`to_user`),
+  KEY `from_user` (`from_user`),
+  KEY `to_user` (`to_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `social_accounts`
+--
+ 
+DROP TABLE IF EXISTS `social_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `social_accounts` (
+  `id` char(36) NOT NULL,
+  `user_id` varchar(36) NOT NULL,
+  `provider` varchar(255) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `reference` varchar(255) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `description` text,
+  `link` varchar(255) NOT NULL,
+  `token` varchar(500) NOT NULL,
+  `token_secret` varchar(500) DEFAULT NULL,
+  `token_expires` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `data` text NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `user_shares`
+--
+ 
+DROP TABLE IF EXISTS `user_shares`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_shares` (
+  `from_user` varchar(100) NOT NULL,
+  `to_user` varchar(100) NOT NULL,
+  `dummy` char(1) DEFAULT '1',
+  PRIMARY KEY (`from_user`,`to_user`),
+  KEY `to_user` (`to_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `users`
+--
+ 
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` char(36) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `token_expires` datetime DEFAULT NULL,
+  `api_token` varchar(255) DEFAULT NULL,
+  `activation_date` datetime DEFAULT NULL,
+  `tos_date` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `is_superuser` tinyint(1) NOT NULL DEFAULT '0',
+  `role` varchar(255) DEFAULT 'user',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `vacation`
+--
+ 
+DROP TABLE IF EXISTS `vacation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vacation` (
+  `email` varchar(255) NOT NULL,
+  `subject` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `body` text CHARACTER SET utf8 NOT NULL,
+  `activefrom` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
+  `activeuntil` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
+  `cache` text,
+  `domain` varchar(255) NOT NULL,
+  `interval_time` int(11) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`email`),
+  KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Virtual Vacation';
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `vacation_notification`
+--
+ 
+DROP TABLE IF EXISTS `vacation_notification`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vacation_notification` (
+  `on_vacation` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `notified` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `notified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`on_vacation`,`notified`),
+  CONSTRAINT `vacation_notification_pkey` FOREIGN KEY (`on_vacation`) REFERENCES `vacation` (`email`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Postfix Admin - Virtual Vacation Notifications';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+ 
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

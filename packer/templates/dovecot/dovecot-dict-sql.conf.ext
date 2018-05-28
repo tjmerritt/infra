@@ -1,0 +1,35 @@
+connect = host=127.0.0.1 dbname=mailserver user=mailadmin password={{ mysql_mailadmin_passwd }}
+map {
+  pattern = priv/quota/storage
+  table = quota2
+  username_field = username
+  value_field = bytes
+}
+ 
+map {
+  pattern = priv/quota/messages
+  table = quota2
+  username_field = username
+  value_field = messages
+}
+ 
+map {
+  pattern = shared/shared-boxes/user/$to/$from
+  table = user_shares
+  value_field = dummy
+  
+  fields {
+    from_user = $from
+    to_user = $to
+  }
+}
+  
+map {
+  pattern = shared/shared-boxes/anyone/$from
+  table = anyone_shares
+  value_field = dummy
+  
+  fields {
+    from_user = $from
+  }
+}

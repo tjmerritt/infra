@@ -1,0 +1,22 @@
+-- mailuser: 'SELECT' PRIVILEGES.
+-- mailadmin: 'SELECT, INSERT, UPDATE, DELETE' PRIVILEGES.
+ 
+GRANT SELECT ON mailserver.* TO 'mailuser'@'localhost' IDENTIFIED BY '{{ mysql_mailuser_passwd }}';
+GRANT SELECT ON mailserver.* TO 'mailuser'@'127.0.0.1' IDENTIFIED BY '{{ mysql_mailuser_passwd }}';
+ 
+GRANT SELECT ON spamassassin.* TO 'mailuser'@'localhost' IDENTIFIED BY '{{ mysql_mailuser_passwd }}';
+GRANT SELECT ON spamassassin.* TO 'mailuser'@'127.0.0.1' IDENTIFIED BY '{{ mysql_mailuser_passwd }}';
+ 
+GRANT ALL PRIVILEGES ON mailserver.* TO 'mailadmin'@'localhost' IDENTIFIED BY '{{ mysql_mailadmin_passwd }}';
+GRANT ALL PRIVILEGES ON mailserver.* TO 'mailadmin'@'127.0.0.1' IDENTIFIED BY '{{ mysql_mailadmin_passwd }}';
+ 
+GRANT ALL PRIVILEGES ON spamassassin.* TO 'mailadmin'@'localhost' IDENTIFIED BY '{{ mysql_mailadmin_passwd }}';
+GRANT ALL PRIVILEGES ON spamassassin.* TO 'mailadmin'@'127.0.0.1' IDENTIFIED BY '{{ mysql_mailadmin_passwd }}';
+ 
+GRANT ALL PRIVILEGES ON a0001.* TO 'mailadmin'@'localhost' IDENTIFIED BY '{{ mysql_mailadmin_passwd }}';
+GRANT ALL PRIVILEGES ON a0001.* TO 'mailadmin'@'127.0.0.1' IDENTIFIED BY '{{ mysql_mailadmin_passwd }}';
+ 
+GRANT ALL PRIVILEGES ON roundcubemail.* TO 'mailadmin'@'localhost' IDENTIFIED BY '{{ mysql_mailadmin_passwd }}';
+GRANT ALL PRIVILEGES ON roundcubemail.* TO 'mailadmin'@'127.0.0.1' IDENTIFIED BY '{{ mysql_mailadmin_passwd }}';
+ 
+FLUSH PRIVILEGES;

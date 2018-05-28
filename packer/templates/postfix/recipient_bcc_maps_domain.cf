@@ -1,0 +1,5 @@
+user = mailuser
+password = {{ mysql_mailuser_passwd }}
+hosts = 127.0.0.1
+dbname = mailserver
+query = SELECT bcc_address FROM recipient_bcc_domain WHERE domain='%d' AND active=1

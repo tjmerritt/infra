@@ -1,0 +1,5 @@
+LOCK TABLES `bayes_global_vars` WRITE;
+/*!40000 ALTER TABLE `bayes_global_vars` DISABLE KEYS */;
+INSERT INTO `bayes_global_vars` VALUES ('VERSION','3');
+/*!40000 ALTER TABLE `bayes_global_vars` ENABLE KEYS */;
+UNLOCK TABLES;

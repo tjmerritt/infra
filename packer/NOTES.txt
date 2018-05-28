@@ -1,0 +1,28 @@
+Based upon 
+https://github.com/kaorimatz/packer-templates/
+https://www.sophimail.com/configure-freebsd-email-server-using-postfix-dovecot-mysql-spamassassin/
+
+To Build Box
+./packer.sh
+
+To run box from vagrant
+./vagrant.sh
+vagrant up
+
+Changes from sophimail description
+
+The pkg postfix binary package does not have mysql support, so instead of installing that package
+we use portsnap to grab the ports tree and build postfix from source.  The configuration that is used
+places postfix in /etc/postfix rather than /usr/local/etc/postfix.  I prefer this as it saves me typing.
+PostgresSQL support is also included in the postfix build.  I prefer Postgres over Mysql, so eventually
+I will migrate all of the configs off of Mysql so that I don't have to manage the Mysql configuration.
+
+All of the configuration files from the sophimail description are contained in the templates tree.  These
+files have been made into Jinja2 templates and the packer.sh script runs jinja2 on these templates to populate
+the files directory.  The packer script copys the files directory to the newly installed OS in its entirety.
+
+The script_templates tree has scripts that are also templatized for jinja2.  These get expanded into the scripts
+directory.  The packer config runs through a list of sripts that install software can copy configuration into
+place.  The goal is that would the working image is complete that all of the software will be installed and 
+configuration put in place, and the system should be operational.
+

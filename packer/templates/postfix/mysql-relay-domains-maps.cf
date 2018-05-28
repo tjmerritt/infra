@@ -1,0 +1,5 @@
+user = mailuser
+password = {{ mysql_mailuser_passwd }}
+hosts = 127.0.0.1
+dbname = mailserver
+query = SELECT domain FROM domain WHERE domain='%s' and backupmx = '1'

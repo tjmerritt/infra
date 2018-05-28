@@ -1,0 +1,154 @@
+-- MySQL dump 10.13  Distrib 5.6.35, for FreeBSD11.0 (amd64)
+--
+-- Host: localhost    Database: spamassassin
+-- ------------------------------------------------------
+-- Server version 5.6.35
+ 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+ 
+--
+-- Current Database: `spamassassin`
+--
+ 
+/*!40000 DROP DATABASE IF EXISTS `spamassassin`*/;
+ 
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `spamassassin` /*!40100 DEFAULT CHARACTER SET latin1 */;
+ 
+USE `spamassassin`;
+ 
+--
+-- Table structure for table `awl`
+--
+ 
+DROP TABLE IF EXISTS `awl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `awl` (
+  `username` varchar(100) NOT NULL DEFAULT '',
+  `email` varbinary(255) NOT NULL DEFAULT '',
+  `ip` varchar(40) NOT NULL DEFAULT '',
+  `count` int(11) NOT NULL DEFAULT '0',
+  `totscore` float NOT NULL DEFAULT '0',
+  `signedby` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`username`,`email`,`signedby`,`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `bayes_expire`
+--
+ 
+DROP TABLE IF EXISTS `bayes_expire`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bayes_expire` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `runtime` int(11) NOT NULL DEFAULT '0',
+  KEY `bayes_expire_idx1` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `bayes_global_vars`
+--
+ 
+DROP TABLE IF EXISTS `bayes_global_vars`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bayes_global_vars` (
+  `variable` varchar(30) NOT NULL DEFAULT '',
+  `value` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`variable`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `bayes_seen`
+--
+ 
+DROP TABLE IF EXISTS `bayes_seen`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bayes_seen` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `msgid` varchar(200) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL DEFAULT '',
+  `flag` char(1) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`,`msgid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `bayes_token`
+--
+ 
+DROP TABLE IF EXISTS `bayes_token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bayes_token` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `token` binary(5) NOT NULL DEFAULT '\0\0\0\0\0',
+  `spam_count` int(11) NOT NULL DEFAULT '0',
+  `ham_count` int(11) NOT NULL DEFAULT '0',
+  `atime` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`,`token`),
+  KEY `bayes_token_idx1` (`id`,`atime`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `bayes_vars`
+--
+ 
+DROP TABLE IF EXISTS `bayes_vars`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bayes_vars` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(200) NOT NULL DEFAULT '',
+  `spam_count` int(11) NOT NULL DEFAULT '0',
+  `ham_count` int(11) NOT NULL DEFAULT '0',
+  `token_count` int(11) NOT NULL DEFAULT '0',
+  `last_expire` int(11) NOT NULL DEFAULT '0',
+  `last_atime_delta` int(11) NOT NULL DEFAULT '0',
+  `last_expire_reduce` int(11) NOT NULL DEFAULT '0',
+  `oldest_token_age` int(11) NOT NULL DEFAULT '2147483647',
+  `newest_token_age` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `bayes_vars_idx1` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ 
+--
+-- Table structure for table `userpref`
+--
+ 
+DROP TABLE IF EXISTS `userpref`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `userpref` (
+  `username` varchar(100) NOT NULL DEFAULT '',
+  `preference` varchar(50) NOT NULL DEFAULT '',
+  `value` varchar(100) NOT NULL DEFAULT '',
+  `prefid` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`prefid`),
+  KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+ 
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
