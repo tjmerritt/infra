@@ -4,7 +4,7 @@ set -e
 set -x
 
 # Update server name in Apache configuration file
-sudo sed -i '' -e 's/#ServerName www.example.com:80/ServerName mail2.tj.merritts.org/' /usr/local/etc/apache24/httpd.conf
+sudo sed -i '' -e 's/#ServerName www.example.com:80/ServerName {{ hostname }}/' /usr/local/etc/apache24/httpd.conf
 
 # Setup PHP environment
 sudo cp /usr/local/etc/php.ini-production /usr/local/etc/php.ini

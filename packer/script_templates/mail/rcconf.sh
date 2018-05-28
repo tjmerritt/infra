@@ -5,7 +5,7 @@ set -x
 
 # Update configuration variables
 sudo tee -a /etc/rc.conf <<@EOF
-hostname="mail2.tj.merritts.org"
+hostname="{{ hostname }}"
 zfs_enable="YES" # For ZFS filesystems
 ntpd_enable="YES"
 sshd_enable="YES"
