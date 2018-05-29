@@ -13,3 +13,8 @@ sudo portsnap extract
 sudo mkdir -p /var/db/ports/mail_postfix
 sudo cp /tmp/files/postfix/options /var/db/ports/mail_postfix
 (cd /usr/ports/mail/postfix; DEFAULT_REPLACE_MAILERCONF=y sudo make install)
+
+# Install dovecot port
+sudo mkdir -p /var/db/ports/mail_dovecot
+sudo cp /tmp/files/dovecot/options /var/db/ports/mail_dovecot
+(cd /usr/ports/mail/dovecot; sudo make install)

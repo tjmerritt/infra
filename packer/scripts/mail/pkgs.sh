@@ -5,7 +5,8 @@ set -x
 
 PKGS=""
 PKGS="${PKGS} ap24-mod_security apache24 apr arc arj autoconf autoconf-wrapper automake automake-wrapper bash bison ca_root_nss cclient clamav-milter cmake "
-PKGS="${PKGS} curl cvsps davical db5 dialog4ports dovecot-pigeonhole dovecot expat ezjail freetype2 gdbm gettext-runtime gettext-tools git gmake gnupg1 help2man icu indexinfo "
+#PKGS="${PKGS} curl cvsps davical db5 dialog4ports dovecot dovecot-pigeonhole expat ezjail freetype2 gdbm gettext-runtime gettext-tools git gmake gnupg1 help2man icu indexinfo "
+PKGS="${PKGS} curl cvsps davical db5 dialog4ports expat ezjail freetype2 gdbm gettext-runtime gettext-tools git gmake gnupg1 help2man icu indexinfo "
 PKGS="${PKGS} jpeg-turbo json-c jsoncpp kbproto ldns libICE libSM libX11 libXau libXaw libXdmcp libXext libXmu libXp libXpm libXt libarchive libedit libevent libffi libiconv "
 PKGS="${PKGS} libidn libltdl liblz4 libmcrypt libpthread-stubs libspf2 libtool libuv libxcb libxml2 libzip lua52 lzo2 m4 mod_php56 munin-common mysql56-client mysql56-server nano "
 PKGS="${PKGS} oniguruma opendkim opendmarc p5-Algorithm-C3 p5-Authen-NTLM p5-Authen-SASL p5-B-Hooks-EndOfScope p5-BerkeleyDB p5-Bit-Vector p5-Cache p5-Cache-Cache p5-Carp-Clan "

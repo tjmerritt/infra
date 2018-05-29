@@ -7,7 +7,7 @@ set -x
 postfixdir="/etc/postfix"
 
 # Create directories
-sudo mkdir -p /etc/skel/Maildir/{cur,new,tmp}
+sudo mkdir -p /etc/skel/Maildir/cur /etc/skel/Maildir/new /etc/skel/Maildir/tmp
 sudo mkdir -p /usr/local/vhosts
 sudo mkdir -p "${postfixdir}/keys"
 

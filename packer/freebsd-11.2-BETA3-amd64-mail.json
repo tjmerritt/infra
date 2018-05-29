@@ -111,6 +111,7 @@
       "scripts/mail/rcconf.sh",
       "scripts/mail/pkgs.sh",
       "scripts/mail/ports.sh",
+      "scripts/mail/xpkgs.sh",
       "scripts/mail/apache.sh",
       "scripts/mail/mysql.sh",
       "scripts/mail/dovecot.sh",
@@ -122,6 +123,7 @@
       "scripts/mail/davical.sh",
       "scripts/mail/webadmin.sh",
       "scripts/mail/roundcube.sh",
+      "scripts/mail/postfixadmin.sh",
       "scripts/freebsd/cleanup.sh",
       "scripts/freebsd/minimize.sh"
     ]
